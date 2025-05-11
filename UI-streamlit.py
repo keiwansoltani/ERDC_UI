@@ -26,7 +26,16 @@ rheology_features_list = [
 # Additional inputs for Nc calculation
 extra_features = ['CaO in SCM', 'Al2O3 in SCM', 'SiO2 in SCM']
 
-input_features = list(set(compressive_features_list + rheology_features_list) - {'Nc'}) + extra_features
+# Predefined SCM compositions
+scm_defaults = {
+    "Calcined clay": [12.067, 0.73, 35.27, 57.05],
+    "F fly ash": [2.153, 11.83, 19.48, 43.59 ],
+    "C fly ash": [2.973, 29.51, 18.07, 37.29],
+    "Ground granulated blast furnace slag": [1.084, 42.73, 8.58, 35.9],
+    "MSWI ash": [12.086, 52.85, 6.85, 12.91],
+    "Steel slag": [0.854, 62.75, 9.9, 16.09],
+    "Glass powder": [0.233, 12.54, 1.16, 74.8]
+}
 
 # === Load the correct trained model ===
 with open('3DP_May_2025.pkl', 'rb') as f:
@@ -37,8 +46,52 @@ st.title("3DP Concrete Property Predictor")
 st.write("Enter values for each feature below:")
 
 user_input = {}
-for feature in input_features:
-    user_input[feature] = st.number_input(f"{feature}:", value=0.0, step=0.01, format="%.6f")
+
+fiber_type_options = {
+    "None": 0,
+    "Steel": 1,
+    "PVA": 2,
+    "PP": 3,
+    "Glass": 4,
+    "Hemp": 5
+}
+
+# === SCM Composition Section ===
+with st.expander("🧪 SCM Composition"):
+    use_default_scm = st.checkbox("Default Composition", help="Check to select from predefined SCM types")
+
+    if use_default_scm:
+        scm_choice = st.selectbox("Choose SCM Type:", list(scm_defaults.keys()))
+        default_vals = scm_defaults[scm_choice]
+    else:
+        default_vals = [0.0, 0.0, 0.0, 0.0]
+
+    ssa_val = st.number_input("SSA of SCM (m2/g):", value=default_vals[0], step=0.01, format="%.6f")
+    cao_val = st.number_input("CaO in SCM:", value=default_vals[1], step=0.01, format="%.6f")
+    al2o_val = st.number_input("Al2O3 in SCM:", value=default_vals[2], step=0.01, format="%.6f")
+    sio2_val = st.number_input("SiO2 in SCM:", value=default_vals[3], step=0.01, format="%.6f")
+
+    user_input['SSA of SCM (m2/g)'] = ssa_val
+    user_input['CaO in SCM'] = cao_val
+    user_input['Al2O3 in SCM'] = al2o_val
+    user_input['SiO2 in SCM'] = sio2_val
+
+# === Mix Design Inputs ===
+with st.expander("🔧 Mix Design Inputs"):
+    for feature in compressive_features_list:
+        if feature in ['Nc', 'SSA of SCM (m2/g)', 'Fiber Type']:
+            continue
+        user_input[feature] = st.number_input(f"{feature}:", value=0.0, step=0.01, format="%.6f")
+
+# === Fiber Properties ===
+with st.expander("🧵 Fiber Properties"):
+    fiber_label = st.selectbox("Fiber Type:", list(fiber_type_options.keys()))
+    user_input['Fiber Type'] = fiber_type_options[fiber_label]
+
+# === Rheology Input ===
+with st.expander("📊 Rheology Input"):
+    if 'Mini-slump after joint' not in user_input:
+        user_input['Mini-slump after joint'] = st.number_input("Mini-slump after joint:", value=0.0, step=0.01, format="%.6f")
 
 # === Compute Nc from SCM components ===
 CAO = user_input.pop('CaO in SCM')
@@ -58,6 +111,9 @@ else:
     Nc = (11 + 13 * norm_Al2O - 13 * norm_CAO) / (3 - 2 * norm_CAO + 2 * norm_Al2O)
 
 user_input['Nc'] = Nc
+user_input['CaO in SCM'] = CAO
+user_input['Al2O3 in SCM'] = Al2O
+user_input['SiO2 in SCM'] = SiO2
 
 # Explicit DataFrame creation
 compressive_df = pd.DataFrame([{feature: user_input[feature] for feature in compressive_features_list}])
