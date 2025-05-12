@@ -34,7 +34,8 @@ scm_defaults = {
     "Ground granulated blast furnace slag": [1.084, 42.73, 8.58, 35.9],
     "MSWI ash": [12.086, 52.85, 6.85, 12.91],
     "Steel slag": [0.854, 62.75, 9.9, 16.09],
-    "Glass powder": [0.233, 12.54, 1.16, 74.8]
+    "Glass powder": [0.233, 12.54, 1.16, 74.8],
+    "None": [0.0, 0.0, 0.0, 0.0]
 }
 
 # === Load the correct trained model ===
