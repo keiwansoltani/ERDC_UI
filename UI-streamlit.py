@@ -29,7 +29,7 @@ extra_features = ['CaO in SCM', 'Al2O3 in SCM', 'SiO2 in SCM']
 # Predefined SCM compositions
 scm_defaults = {
     "Calcined clay": [12.067, 0.73, 35.27, 57.05],
-    "F fly ash": [2.153, 11.83, 19.48, 43.59 ],
+    "F fly ash": [2.153, 11.83, 19.48, 43.59],
     "C fly ash": [2.973, 29.51, 18.07, 37.29],
     "Ground granulated blast furnace slag": [1.084, 42.73, 8.58, 35.9],
     "MSWI ash": [12.086, 52.85, 6.85, 12.91],
@@ -58,10 +58,10 @@ fiber_type_options = {
 
 # === SCM Composition Section ===
 with st.expander("🧪 SCM Composition"):
-    use_default_scm = st.checkbox("Default Composition", help="Check to select from predefined SCM types")
+    scm_choice = st.selectbox("Choose SCM Type:", list(scm_defaults.keys()))
+    use_default_scm = st.checkbox("Default Composition", help="Check to auto-fill values for selected SCM type")
 
     if use_default_scm:
-        scm_choice = st.selectbox("Choose SCM Type:", list(scm_defaults.keys()))
         default_vals = scm_defaults[scm_choice]
     else:
         default_vals = [0.0, 0.0, 0.0, 0.0]
@@ -79,7 +79,7 @@ with st.expander("🧪 SCM Composition"):
 # === Mix Design Inputs ===
 with st.expander("🔧 Mix Design Inputs"):
     for feature in compressive_features_list:
-        if feature in ['Nc', 'SSA of SCM (m2/g)', 'Fiber Type']:
+        if feature in ['Nc', 'SSA of SCM (m2/g)', 'Fiber Type', 'Fiber length (mm)', 'Fiber Volume (%)', 'Age']:
             continue
         user_input[feature] = st.number_input(f"{feature}:", value=0.0, step=0.01, format="%.6f")
 
@@ -87,6 +87,9 @@ with st.expander("🔧 Mix Design Inputs"):
 with st.expander("🧵 Fiber Properties"):
     fiber_label = st.selectbox("Fiber Type:", list(fiber_type_options.keys()))
     user_input['Fiber Type'] = fiber_type_options[fiber_label]
+
+    user_input['Fiber length (mm)'] = st.number_input("Fiber length (mm):", value=0.0, step=0.01, format="%.6f")
+    user_input['Fiber Volume (%)'] = st.number_input("Fiber Volume (%):", value=0.0, step=0.01, format="%.6f")
 
 # === Rheology Input ===
 with st.expander("📊 Rheology Input"):
@@ -115,12 +118,14 @@ user_input['CaO in SCM'] = CAO
 user_input['Al2O3 in SCM'] = Al2O
 user_input['SiO2 in SCM'] = SiO2
 
-# Explicit DataFrame creation
-compressive_df = pd.DataFrame([{feature: user_input[feature] for feature in compressive_features_list}])
-rheology_df = pd.DataFrame([{feature: user_input[feature] for feature in rheology_features_list}])
+# Predict for both ages 7 and 28
+age_predictions = {}
+for age in [7, 28]:
+    user_input['Age'] = age
+    compressive_df = pd.DataFrame([{feature: user_input[feature] for feature in compressive_features_list}])
+    # Use same rheology_df for both ages since age is not a rheology input
+    rheology_df = pd.DataFrame([{feature: user_input[feature] for feature in rheology_features_list}])
 
-# === Prediction Button ===
-if st.button("Predict"):
     compressive_strength = models['stacking_model_C'].predict(compressive_df)[0]
     water_retention = models['stacking_model_R1'].predict(rheology_df)[0]
     dynamic_yield_stress = models['stacking_model_R2'].predict(rheology_df)[0]
@@ -128,10 +133,18 @@ if st.button("Predict"):
     static_floc_stress = models['stacking_model_R4'].predict(rheology_df)[0]
     athix = models['stacking_model_R5'].predict(rheology_df)[0]
 
-    st.subheader("Predicted Properties")
-    st.write(f"**Compressive Strength (MPa):** {compressive_strength:.3f}")
-    st.write(f"**Water Retention:** {water_retention:.3f}")
-    st.write(f"**Dynamic Yield Stress (Pa):** {dynamic_yield_stress:.3f}")
-    st.write(f"**Plastic Viscosity (Pa·s):** {plastic_viscosity:.3f}")
-    st.write(f"**Static Flocculation Stress (Pa):** {static_floc_stress:.3f}")
-    st.write(f"**Athix (Pa/min):** {athix:.3f}")
+    age_predictions[age] = {
+        "Compressive Strength (MPa)": compressive_strength,
+        "Water Retention": water_retention,
+        "Dynamic Yield Stress (Pa)": dynamic_yield_stress,
+        "Plastic Viscosity (Pa·s)": plastic_viscosity,
+        "Static Flocculation Stress (Pa)": static_floc_stress,
+        "Athix (Pa/min)": athix
+    }
+
+# === Prediction Button ===
+if st.button("Predict"):
+    for age, results in age_predictions.items():
+        st.subheader(f"Predicted Properties for {age} days")
+        for key, value in results.items():
+            st.write(f"**{key}:** {value:.3f}")
