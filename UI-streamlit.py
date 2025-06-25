@@ -119,33 +119,45 @@ user_input['CaO in SCM'] = CAO
 user_input['Al2O3 in SCM'] = Al2O
 user_input['SiO2 in SCM'] = SiO2
 
-# Predict for both ages 7 and 28
+
+# Prediction of the rheology properties
+rheology_df = pd.DataFrame([{feature: user_input[feature] for feature in rheology_features_list}])
+
+water_retention = models['stacking_model_R1'].predict(rheology_df)[0]
+dynamic_yield_stress = models['stacking_model_R2'].predict(rheology_df)[0]
+plastic_viscosity = models['stacking_model_R3'].predict(rheology_df)[0]
+static_floc_stress = models['stacking_model_R4'].predict(rheology_df)[0]
+athix = models['stacking_model_R5'].predict(rheology_df)[0]
+
+total_predictions = {
+    "Water Retention": water_retention,
+    "Dynamic Yield Stress (Pa)": dynamic_yield_stress,
+    "Plastic Viscosity (Pa·s)": plastic_viscosity,
+    "Static Flocculation Stress (Pa)": static_floc_stress,
+    "Athix (Pa/min)": athix
+    }
+# Predict of compressive Strength for both ages 7 and 28
 age_predictions = {}
 for age in [7, 28]:
     user_input['Age'] = age
     compressive_df = pd.DataFrame([{feature: user_input[feature] for feature in compressive_features_list}])
-    # Use same rheology_df for both ages since age is not a rheology input
-    rheology_df = pd.DataFrame([{feature: user_input[feature] for feature in rheology_features_list}])
-
     compressive_strength = models['stacking_model_C'].predict(compressive_df)[0]
-    water_retention = models['stacking_model_R1'].predict(rheology_df)[0]
-    dynamic_yield_stress = models['stacking_model_R2'].predict(rheology_df)[0]
-    plastic_viscosity = models['stacking_model_R3'].predict(rheology_df)[0]
-    static_floc_stress = models['stacking_model_R4'].predict(rheology_df)[0]
-    athix = models['stacking_model_R5'].predict(rheology_df)[0]
-
     age_predictions[age] = {
-        "Compressive Strength (MPa)": compressive_strength,
-        "Water Retention": water_retention,
-        "Dynamic Yield Stress (Pa)": dynamic_yield_stress,
-        "Plastic Viscosity (Pa·s)": plastic_viscosity,
-        "Static Flocculation Stress (Pa)": static_floc_stress,
-        "Athix (Pa/min)": athix
+        "Compressive Strength (MPa)": compressive_strength
     }
+
 
 # === Prediction Button ===
 if st.button("Predict"):
+    
+    # Rheology properties 
+    st.subheader("Predicted Properties")
+    for key, value in total_predictions.items():
+        st.write(f"**{key}:** {value:.3f}")  
+
+    # Copressive Strength properties
+    st.markdown("##### Compressive Strength (MPa) ")
     for age, results in age_predictions.items():
-        st.subheader(f"Predicted Properties for {age} days")
         for key, value in results.items():
-            st.write(f"**{key}:** {value:.3f}")
+            st.write(f"**{age} days:** {value:.3f}")
+
