@@ -281,8 +281,8 @@ with tab2:
                     results_list.append({
                         "Cement content (%)": cement,
                         "SCM content (%)": scm,
-                        "Water/Binder": wb,
-                        "Predicted Strength (MPa)": predicted_strength
+                        "Water/Binder": wb
+                        #"Predicted Strength (MPa)": predicted_strength
                     })
 
         if results_list:
