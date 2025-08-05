@@ -255,36 +255,6 @@ with tab1:
                     for age, value in strength_predictions.items():
                         st.write(f"**{age} days Strength (MPa):** {value:.2f}")
 
-
-        # if st.session_state["predicted_main"]:
-        #     # === 3DP Strength Prediction Toggle and Section ===
-        #     enable_3dp_strength = st.toggle("Enable 3DP Strength Prediction",key="strength_toggle" )
-        #     if enable_3dp_strength:
-        #         with st.expander("3DP Printing Parameters for Strength"):
-        #             printing_speed_s = st.number_input("Printing Speed (mm/s) [Strength]:", value=0.0, step=0.01, format="%.3f", key="strength_speed")
-        #             nozzle_size_s = st.number_input("Nozzle Size (mm) [Strength]:", value=0.0, step=0.01, format="%.3f", key="strength_nozzle")
-        #             single_layer_thickness_s = st.number_input("Single Layer Thickness (mm) [Strength]:", value=0.0, step=0.01, format="%.3f", key="strength_thickness")
-        #         if st.button("Predict 3DP Strength"):
-        #             strength_predictions = {}
-        #             expected_features_S = models["stacking_model_S"].feature_names_in_
-        #             for age in [7, 28]:
-        #                 # Build input from user_input and manually entered parameters
-        #                 combined_input = user_input.copy()
-        #                 combined_input["Age"] = age
-        #                 combined_input["Printing speed (mm/s)"] = printing_speed_s
-        #                 combined_input["nozzle size (mm)"] = nozzle_size_s
-        #                 combined_input["single layer height (mm)"] = single_layer_thickness_s
-
-        #                 # Filter only the features expected by the model
-        #                 strength_input = {key: combined_input[key] for key in expected_features_S if key in combined_input}
-
-        #                 strength_df = pd.DataFrame([strength_input])
-        #                 strength_predictions[age] = models["stacking_model_S"].predict(strength_df)[0]
-        #             # Display results
-        #             st.subheader("Predicted 3DP Compressive Strength")
-        #             for age, value in strength_predictions.items():
-        #                 st.success(f"**{age} days Strength (MPa):** {value:.2f}")
-
 with tab2:
     st.subheader("Optimize Mix Design for Target Strength at 28 Days")
 
