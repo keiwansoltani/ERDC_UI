@@ -55,9 +55,9 @@ if "predicted_main" not in st.session_state:
 
 col1, col2, col3 ,colm4= st.columns([1, 4, 1,1])
 with col1:
-    st.image("MST-logo.png",  width=200)
+    st.image("MST-logo.png",  width=220)
 with col3:
-    st.image("ERDC-logo.jpg",  width=200)
+    st.image("ERDC-logo.jpg",  width=220)
 
 
 # === Streamlit UI ===
