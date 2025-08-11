@@ -53,7 +53,7 @@ if "predicted_main" not in st.session_state:
 
 # MST logo and ERDC logo
 
-col1, col2, col3 ,colm4= st.columns([1, 4, 1,1])
+col1, col2, col3 = st.columns([2, 4, 2])
 with col1:
     st.image("MST-logo.png",  width=220)
 with col3:
