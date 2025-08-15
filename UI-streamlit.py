@@ -88,10 +88,10 @@ with tab1:
         else:
             default_vals = [0.0, 0.0, 0.0, 0.0]
 
-        ssa_val = st.number_input("SSA of SCM (m2/g):", value=default_vals[0], step=0.01, format="%.6f")
-        cao_val = st.number_input("CaO in SCM:", value=default_vals[1], step=0.01, format="%.6f")
-        al2o_val = st.number_input("Al2O3 in SCM:", value=default_vals[2], step=0.01, format="%.6f")
-        sio2_val = st.number_input("SiO2 in SCM:", value=default_vals[3], step=0.01, format="%.6f")
+        ssa_val = st.number_input("SSA of SCM (m2/g):", value=default_vals[0], step=0.01, format="%.2f")
+        cao_val = st.number_input("CaO in SCM:", value=default_vals[1], step=0.01, format="%.2f")
+        al2o_val = st.number_input("Al2O3 in SCM:", value=default_vals[2], step=0.01, format="%.2f")
+        sio2_val = st.number_input("SiO2 in SCM:", value=default_vals[3], step=0.01, format="%.2f")
 
         user_input['SSA of SCM (m2/g)'] = ssa_val
         user_input['CaO in SCM'] = cao_val
@@ -103,20 +103,20 @@ with tab1:
         for feature in compressive_features_list:
             if feature in ['Nc', 'SSA of SCM (m2/g)', 'Fiber Type', 'Fiber length (mm)', 'Fiber Volume (%)', 'Age']:
                 continue
-            user_input[feature] = st.number_input(f"{feature}:", value=0.0, step=0.01, format="%.6f")
+            user_input[feature] = st.number_input(f"{feature}:", value=0.0, step=0.01, format="%.2f")
 
     # === Fiber Properties ===
     with st.expander("🧵 Fiber Properties"):
         fiber_label = st.selectbox("Fiber Type:", list(fiber_type_options.keys()))
         user_input['Fiber Type'] = fiber_type_options[fiber_label]
 
-        user_input['Fiber length (mm)'] = st.number_input("Fiber length (mm):", value=0.0, step=0.01, format="%.6f")
-        user_input['Fiber Volume (%)'] = st.number_input("Fiber Volume (%):", value=0.0, step=0.01, format="%.6f")
+        user_input['Fiber length (mm)'] = st.number_input("Fiber length (mm):", value=0.0, step=0.01, format="%.2f")
+        user_input['Fiber Volume (%)'] = st.number_input("Fiber Volume (%):", value=0.0, step=0.01, format="%.2f")
 
     # === Rheology Input ===
     with st.expander("📊 Rheology Input"):
         if 'Mini-slump after joint' not in user_input:
-            user_input['Mini-slump after joint'] = st.number_input("Mini-slump after joint:", value=0.0, step=0.01, format="%.6f")
+            user_input['Mini-slump after joint'] = st.number_input("Mini-slump after joint:", value=0.0, step=0.01, format="%.2f")
 
     # === Compute Nc from SCM components ===
     CAO = user_input.pop('CaO in SCM')
@@ -227,9 +227,9 @@ with tab1:
             enable_3dp_layer = st.toggle("Enable 3DP Layer Prediction", key="layer_toggle")
             if enable_3dp_layer:
                 with st.expander(" 3DP Printing Parameters"):
-                    printing_speed = st.number_input("Printing Speed (mm/s):", value=0.0, step=0.01, format="%.3f", key="layer_speed")
-                    nozzle_size = st.number_input("Nozzle Size (mm):", value=0.0, step=0.01, format="%.3f", key="layer_nozzle")
-                    single_layer_thickness = st.number_input("Single Layer Thickness (mm):", value=0.0, step=0.01, format="%.3f", key="layer_thickness")
+                    printing_speed = st.number_input("Printing Speed (mm/s):", value=0.0, step=0.01, format="%.2f", key="layer_speed")
+                    nozzle_size = st.number_input("Nozzle Size (mm):", value=0.0, step=0.01, format="%.2f", key="layer_nozzle")
+                    single_layer_thickness = st.number_input("Single Layer Thickness (mm):", value=0.0, step=0.01, format="%.2f", key="layer_thickness")
                 
                 if st.button("Predict 3DP Layers & Strength"):
                 # Prepare input for layer model
@@ -280,10 +280,10 @@ with tab2:
         else:
             default_vals = [0.0, 0.0, 0.0, 0.0]
 
-        ssa_val = st.number_input("SSA of SCM (m2/g):", value=default_vals[0], step=0.01, format="%.6f", key="opt_ssa")
-        cao_val = st.number_input("CaO in SCM:", value=default_vals[1], step=0.01, format="%.6f", key="opt_cao")
-        al2o_val = st.number_input("Al2O3 in SCM:", value=default_vals[2], step=0.01, format="%.6f", key="opt_al2o")
-        sio2_val = st.number_input("SiO2 in SCM:", value=default_vals[3], step=0.01, format="%.6f", key="opt_sio2")
+        ssa_val = st.number_input("SSA of SCM (m2/g):", value=default_vals[0], step=0.01, format="%.2f", key="opt_ssa")
+        cao_val = st.number_input("CaO in SCM:", value=default_vals[1], step=0.01, format="%.2f", key="opt_cao")
+        al2o_val = st.number_input("Al2O3 in SCM:", value=default_vals[2], step=0.01, format="%.2f", key="opt_al2o")
+        sio2_val = st.number_input("SiO2 in SCM:", value=default_vals[3], step=0.01, format="%.2f", key="opt_sio2")
 
         opt_user_input['SSA of SCM (m2/g)'] = ssa_val
         opt_user_input['CaO in SCM'] = cao_val
@@ -295,15 +295,15 @@ with tab2:
         for feature in compressive_features_list:
             if feature in ['Cement content (%)', 'SCM content (%)', 'Water/Binder', 'Nc', 'SSA of SCM (m2/g)', 'Fiber Type', 'Fiber length (mm)', 'Fiber Volume (%)', 'Age']:
                 continue
-            opt_user_input[feature] = st.number_input(f"{feature}:", value=0.0, step=0.01, format="%.6f", key=f"opt_{feature}")
+            opt_user_input[feature] = st.number_input(f"{feature}:", value=0.0, step=0.01, format="%.2f", key=f"opt_{feature}")
 
     # === Fiber Properties ===
     with st.expander("🧵 Fiber Properties"):
         fiber_label = st.selectbox("Fiber Type:", list(fiber_type_options.keys()), key="opt_fiber_type")
         opt_user_input['Fiber Type'] = fiber_type_options[fiber_label]
 
-        opt_user_input['Fiber length (mm)'] = st.number_input("Fiber length (mm):", value=0.0, step=0.01, format="%.6f", key="opt_fiber_len")
-        opt_user_input['Fiber Volume (%)'] = st.number_input("Fiber Volume (%):", value=0.0, step=0.01, format="%.6f", key="opt_fiber_vol")
+        opt_user_input['Fiber length (mm)'] = st.number_input("Fiber length (mm):", value=0.0, step=0.01, format="%.2f", key="opt_fiber_len")
+        opt_user_input['Fiber Volume (%)'] = st.number_input("Fiber Volume (%):", value=0.0, step=0.01, format="%.2f", key="opt_fiber_vol")
 
     # === Target Strength Input ===
     target_strength = st.number_input("Target Compressive Strength (MPa):", value=50.0, step=0.1, key="opt_target_strength")
