@@ -357,7 +357,7 @@ with tab2:
                 if predicted_strength >= target_strength:
                     results_list.append({
                         "Cement content (%)": cement,
-                        "SCM content (%)": scm,
+                        "SCM content (%)": int(scm),
                         "Water/Binder": wb,
                         "Predicted Strength (MPa)": predicted_strength
                     })
