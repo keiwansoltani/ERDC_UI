@@ -4,7 +4,7 @@ import numpy as np
 import cloudpickle
 
 # === Load input feature names from correct file ===
-file_path = '3D-DB-July-2025.xlsx'  # Must match training file exactly
+file_path = '3D-DB-Aug-2025.xlsx'  # Must match training file exactly
 df_C_S = pd.read_excel(file_path, sheet_name=0, engine='openpyxl')
 df_R = pd.read_excel(file_path, sheet_name=1, engine='openpyxl')
 df_3D_L = pd.read_excel(file_path, sheet_name=2, engine="openpyxl")     # Layer
@@ -46,9 +46,9 @@ feature_labels = {
     "Mini-slump after joint": "Mini-slump after joint (mm, 120–240)",
 
     # SCM composition helpers (you store these in user_input too)
-    "CaO in SCM": "CaO in SCM (%, 0–60)",
-    "Al2O3 in SCM": "Al₂O₃ in SCM (%, 15–70)",
-    "SiO2 in SCM": "SiO₂ in SCM (%, 5–35)",
+    "CaO in SCM": "CaO in SCM (%, 0–65)",
+    "Al2O3 in SCM": "Al₂O₃ in SCM (%, 5–35)",
+    "SiO2 in SCM": "SiO₂ in SCM (%, 15-75)",
 
     # 3DP layer/strength extra params
     "Printing speed (mm/s)": "Printing Speed (mm/s, 20–50)",
