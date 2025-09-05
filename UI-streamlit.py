@@ -36,7 +36,7 @@ feature_labels = {
     "SSA of SCM (m2/g)": "SSA of SCM (m²/g, 0–14)",
     "Water/Binder": "Water-to-Binder ratio (0.2-0.5)",
     "Sand/Binder": "Sand-to-Binder ratio (0-2.5)",
-    "Aggregate/Binder": "Aggregate-to-Binder ratio (0-0.5)",
+    "Aggregate/Binder": "Coarse Aggregate-to-Binder ratio (0-0.5)",
     "Fiber length (mm)": "Fiber length (mm, 0–50)",
     "Fiber Volume (%)": "Fiber volume fraction (%, 0–2)",
     "Fiber Type": "Fiber type",
