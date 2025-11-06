@@ -36,7 +36,7 @@ feature_labels = {
     "SSA of SCM (m2/g)": "SSA of SCM (m²/g, 0–14)",
     "Water/Binder": "Water-to-Binder ratio (0.2-0.5)",
     "Sand/Binder": "Sand-to-Binder ratio (0-2.5)",
-    "Aggregate/Binder": "Coarse Aggregate-to-Binder ratio (0-0.5)",
+    "Aggregate/Binder": "Aggregate-to-Binder ratio (0-0.5)",
     "Fiber length (mm)": "Fiber length (mm, 0–50)",
     "Fiber Volume (%)": "Fiber volume fraction (%, 0–2)",
     "Fiber Type": "Fiber type",
@@ -203,15 +203,15 @@ with tab1:
         "Water Retention": (None, 12),                # <= 12  (I-CAR)
         "Dynamic Yield Stress (Pa)": (583, 1066),     # 583–1066 (I-CAR)
         "Plastic Viscosity (Pa·s)": (2.5, 4.4),       # 2.5–4.4 (I-CAR)
-        "Static Flocculation Stress (Pa)": (260, 744),# 260–744 (I-CAR)
+        "Static Flocculation Stress (Pa)": (200, 500), # 200–500 (I-CAR)
         "Athix (Pa/min)": (8, 25),                    # 8–25  (I-CAR)
     }
     RANGES_NO_FIBER = {
         "Water Retention": (None, 8),                 # <= 8   (I-CAR)
-        "Dynamic Yield Stress (Pa)": (583, 905),
-        "Plastic Viscosity (Pa·s)": (4.6, 6.3),
-        "Static Flocculation Stress (Pa)": (100, 422),
-        "Athix (Pa/min)": (10, 20),
+        "Dynamic Yield Stress (Pa)": (422, 905),
+        "Plastic Viscosity (Pa·s)": (3.7, 8.8),
+        "Static Flocculation Stress (Pa)": (200, 1000),
+        "Athix (Pa/min)": (10, 80),
     }
 
     # Compressive strength thresholds (MPa) — choose set by fiber presence
@@ -221,8 +221,8 @@ with tab1:
         28: 25,
     }
     COMPRESSIVE_NO_FIBER = {
-        7: 30,
-        28: 40,
+        7: 10,
+        28: 30,
     }
 
     # === Predict button ===
