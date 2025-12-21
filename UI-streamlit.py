@@ -33,7 +33,7 @@ feature_labels = {
     "Silica fume content (%)": "Silica fume content (Non-Fiber%, 0-30), (Fiber%, 0)",
     "SCM content (%)": "SCM content (Non-Fiber%, 0-60),(Fiber%, 26-41)",
     "Nc": "Nc (alkalinity index)",
-    "SSA of SCM (m2/g)": "SSA of SCM (m²/g)(Non-Fiber%, 0–14),(Fiber%, 12)",
+    "SSA of SCM (m2/g)": "SSA of SCM (m²/g)(%, 0–14)",
     "Water/Binder": "Water-to-Binder ratio (Non-Fiber%, 0.2-0.5),(Fiber%, 0.35-0.4)",
     "Sand/Binder": "Sand-to-Binder ratio (Non-Fiber%, 0-2.5),(Fiber%, 1.5-3)",
     "Aggregate/Binder": "Aggregate-to-Binder ratio (Non-Fiber%, 0-0.5),(Fiber%, 0)",
