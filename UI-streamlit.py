@@ -28,15 +28,15 @@ rheology_features_list = [
 # Display labels (UI ONLY)
 feature_labels = {
     # Core mix design (inputs used by models)
-    "Cement content (%)": "Cement content (Non-Fiber%, 40-100),(Fiber%, 59-66)",
+    "Cement content (%)": "Cement content (Non-Fiber%, 40-100), (Fiber%, 59-66)",
     "Limestone content (%)": "Limestone content (Non-Fiber%, 0-40), (Fiber%, 7.5-8)",
     "Silica fume content (%)": "Silica fume content (Non-Fiber%, 0-30), (Fiber%, 0)",
-    "SCM content (%)": "SCM content (Non-Fiber%, 0-60),(Fiber%, 26-41)",
+    "SCM content (%)": "SCM content (Non-Fiber%, 0-60), (Fiber%, 26-41)",
     "Nc": "Nc (alkalinity index)",
     "SSA of SCM (m2/g)": "SSA of SCM (m²/g)(%, 0–14)",
-    "Water/Binder": "Water-to-Binder ratio (Non-Fiber%, 0.2-0.5),(Fiber%, 0.35-0.4)",
-    "Sand/Binder": "Sand-to-Binder ratio (Non-Fiber%, 0-2.5),(Fiber%, 1.5-3)",
-    "Aggregate/Binder": "Aggregate-to-Binder ratio (Non-Fiber%, 0-0.5),(Fiber%, 0)",
+    "Water/Binder": "Water-to-Binder ratio (Non-Fiber%, 0.2-0.5), (Fiber%, 0.35-0.4)",
+    "Sand/Binder": "Sand-to-Binder ratio (Non-Fiber%, 0-2.5), (Fiber%, 1.5-3)",
+    "Aggregate/Binder": "Aggregate-to-Binder ratio (Non-Fiber%, 0-0.5), (Fiber%, 0)",
     "Fiber length (mm)": "Fiber length (mm, 0–50)",
     "Fiber Volume (%)": "Fiber volume fraction (%, 0–2)",
     "Fiber Type": "Fiber type",
