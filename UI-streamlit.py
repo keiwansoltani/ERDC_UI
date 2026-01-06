@@ -42,8 +42,9 @@ feature_labels = {
     "Fiber Type": "Fiber type",
     "Age": "Age (days)",
 
-    # Rheology-only input
-    "Mini-slump after joint": "Mini-slump after joint (mm)(Non-Fiber%, 175–245), (Fiber%, 175–190)",
+    # Rheology-only input ## "Mini-slump after joint (mm)(Non-Fiber%, 175–245), (Fiber%, 175–190)"
+    
+    "Mini-slump after joint": "Slump flow after 25 jolts following ASTM C1437 (Non-Fiber%, 175–245), (Fiber%, 175–190)",
 
     # SCM composition helpers (you store these in user_input too)
     "CaO in SCM": "CaO in SCM (%, 0–65)",
