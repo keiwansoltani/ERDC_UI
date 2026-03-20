@@ -81,6 +81,19 @@ with open('3DP_November_2025.pkl', 'rb') as f:
 if "predicted_main" not in st.session_state:
     st.session_state["predicted_main"] = False
 
+
+def sync_opt_scm_defaults():
+    """Keep optimization SCM composition fields synced to selected default composition."""
+    if not st.session_state.get("opt_use_default", True):
+        return
+
+    selected_scm = st.session_state.get("opt_scm_type", "None")
+    default_vals = scm_defaults.get(selected_scm, [0.0, 0.0, 0.0, 0.0])
+    st.session_state["opt_ssa"] = default_vals[0]
+    st.session_state["opt_cao"] = default_vals[1]
+    st.session_state["opt_al2o"] = default_vals[2]
+    st.session_state["opt_sio2"] = default_vals[3]
+
 # MST logo and ERDC logo
 col1, col2, col3 = st.columns([1, 4, 1])
 with col1:
@@ -340,10 +353,26 @@ with tab2:
 
     opt_user_input = {}
 
+    if "opt_scm_initialized" not in st.session_state:
+        st.session_state.setdefault("opt_scm_type", list(scm_defaults.keys())[0])
+        st.session_state.setdefault("opt_use_default", True)
+        sync_opt_scm_defaults()
+        st.session_state["opt_scm_initialized"] = True
+
     # === SCM Composition Section ===
     with st.expander("🧪 SCM Composition"):
-        scm_choice = st.selectbox("Choose SCM Type:", list(scm_defaults.keys()), key="opt_scm_type")
-        use_default_scm = st.checkbox("Default Composition", value=True, key="opt_use_default")
+        scm_choice = st.selectbox(
+            "Choose SCM Type:",
+            list(scm_defaults.keys()),
+            key="opt_scm_type",
+            on_change=sync_opt_scm_defaults,
+        )
+        use_default_scm = st.checkbox(
+            "Default Composition",
+            value=True,
+            key="opt_use_default",
+            on_change=sync_opt_scm_defaults,
+        )
 
         default_vals = scm_defaults[scm_choice] if use_default_scm else [0.0, 0.0, 0.0, 0.0]
 
